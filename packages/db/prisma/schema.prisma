@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  password      String?
+  email         String          @unique
+  image         String?
+               
+  Message Message[]
+  UserChannel UserChannel[]
+}
+
+model SocketIoAttachments {
+  id BigInt @default(autoincrement()) @id
+  payload Bytes
+  createdAt DateTime @default(now()) @map("created_at")
+  @@map("socket-io-attachments")
+}
+
+model Channel {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+
+  Messages Message[]
+  UserChannels UserChannel[]
+}
+
+model Message {
+  id String @id @default(cuid())
+  fromUserId String @map("from_user_id")
+  fromUser User @relation(fields: [fromUserId], references: [id])
+  channelId String @map("channel_id")
+  channel Channel @relation(fields: [channelId], references: [id])
+  content String
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  UserChannel UserChannel[]
+}
+
+model UserChannel {
+  userId String @map("user_id")
+  user User @relation(fields: [userId], references: [id])
+  channelId String @map("channel_id")
+  channel Channel @relation(fields: [channelId], references: [id])
+  clientOffsetId String? @map("client_offset_id")
+  clientOffset Message? @relation(fields: [clientOffsetId], references: [id])
+
+  @@id([userId, channelId])
+}
