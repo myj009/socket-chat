@@ -7,19 +7,22 @@ import prisma from "@repo/db/client";
 import { getServerSession } from "next-auth";
 
 const flattenChats = (chats: ChannelWithUsers[], userId: string): IChat[] => {
-  return chats.map((chat) => {
-    if (chat.UserChannels.length < 2) {
-      throw new Error("UserChannels array does not have enough elements");
-    }
-    const toUser =
-      chat.UserChannels[0]!.userId === userId
-        ? chat.UserChannels[1]!.user
-        : chat.UserChannels[0]!.user;
-    return {
-      id: chat.id,
-      toUser: toUser,
-    };
-  });
+  return chats
+    .map((chat) => {
+      if (chat.UserChannels.length < 2) {
+        console.log("Invalid chat");
+        return undefined;
+      }
+      const toUser =
+        chat.UserChannels[0]!.userId === userId
+          ? chat.UserChannels[1]!.user
+          : chat.UserChannels[0]!.user;
+      return {
+        id: chat.id,
+        toUser: toUser,
+      };
+    })
+    .filter((chat): chat is IChat => chat !== undefined);
 };
 
 // const flattenChatsWithMessages = (
@@ -39,7 +42,9 @@ const flattenChats = (chats: ChannelWithUsers[], userId: string): IChat[] => {
 //   });
 // };
 
-export async function getUserChat(toUserId: string) {
+export async function getUserChat(
+  toUserId: string
+): Promise<IChat[] | undefined> {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     return null;
