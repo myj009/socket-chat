@@ -10,14 +10,11 @@ interface ChatBottombarProps {
   sendMessage: (newMessage: string) => void;
 }
 
-export default function ChatBottombar({
-  isMobile,
-  sendMessage,
-}: ChatBottombarProps) {
+export default function ChatBottombar({ sendMessage }: ChatBottombarProps) {
   const [message, setMessage] = useState("");
-  const [file, setFile] = useState<File | null>(null);
+  // const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const [isLoading, setisLoading] = useState(false);
+  // const [isLoading, setisLoading] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
@@ -28,12 +25,12 @@ export default function ChatBottombar({
     setMessage("");
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setFile(event.target.files[0]);
-      console.log(event.target.files[0]);
-    }
-  };
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     setFile(event.target.files[0]);
+  //     console.log(event.target.files[0]);
+  //   }
+  // };
 
   const handleSend = () => {
     if (message.trim()) {
@@ -46,11 +43,11 @@ export default function ChatBottombar({
     }
   };
 
-  const formattedTime = new Date().toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
+  // const formattedTime = new Date().toLocaleTimeString("en-US", {
+  //   hour: "numeric",
+  //   minute: "2-digit",
+  //   hour12: true,
+  // });
 
   useEffect(() => {
     if (inputRef.current) {
@@ -112,7 +109,6 @@ export default function ChatBottombar({
           <Button
             className="h-9 w-9 shrink-0"
             onClick={handleSend}
-            disabled={isLoading}
             variant="ghost"
             size="icon"
           >
@@ -122,7 +118,6 @@ export default function ChatBottombar({
           <Button
             className="h-9 w-9 shrink-0"
             onClick={handleThumbsUp}
-            disabled={isLoading}
             variant="ghost"
             size="icon"
           >

@@ -1,6 +1,6 @@
 "use client";
 
-import { UserMin } from "@/types/prisma-types";
+import { UserMin } from "@/types/prisma";
 import { ChatList } from "./chat-list";
 import ChatTopbar from "./chat-topbar";
 

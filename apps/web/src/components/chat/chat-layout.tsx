@@ -1,6 +1,6 @@
 "use client";
 
-import { IChat } from "@/app/chat/types";
+import { IChat } from "@/types/chat";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -56,7 +56,7 @@ export function ChatLayout({
 
     if (!userId && chats && chats.length > 0) {
       const newSearchParams = new URLSearchParams(searchParams);
-      newSearchParams.set("userId", chats[0].toUser.id);
+      newSearchParams.set("userId", chats[0]!.toUser.id);
 
       router.replace(`/chat?${newSearchParams.toString()}`);
     }

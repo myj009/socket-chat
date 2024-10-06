@@ -1,4 +1,4 @@
-import { getUserChats } from "@/actions/chat/getUserChats";
+import { getUserChats } from "@/actions/get-user-chats";
 import { ChatLayout } from "@/components/chat/chat-layout";
 import { IChat } from "@/types/chat";
 import { cookies } from "next/headers";

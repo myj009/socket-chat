@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/chat/chat-bubble";
 import { ChatMessageList } from "@/components/ui/chat/chat-message-list";
 import { connectSocket } from "@/lib/socket";
-import { UserMin } from "@/types/prisma-types";
+import { UserMin } from "@/types/prisma";
 import { Message } from "@prisma/client";
 import Avatar from "boring-avatars";
 import { AnimatePresence, motion } from "framer-motion";

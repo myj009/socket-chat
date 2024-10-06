@@ -7,7 +7,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 // import { ErrorHandler } from "@/lib/error";
 // import { SignInSchema, SignUpSchema } from "@/lib/validators/auth.validators";
 // import { PASSWORD_HASH_SALT_ROUNDS } from "@/lib/constants/auth";
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -108,78 +108,78 @@ export const authOptions: AuthOptions = {
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
-  // callbacks: {
-  //   async signIn({ user, account }) {
-  //     if (
-  //       account &&
-  //       (account.provider === "github" || account.provider === "google")
-  //     ) {
-  //       const { email, name, image } = user;
-  //       let User;
-  //       try {
-  //         User = await prisma.user.findUnique({
-  //           where: { email: email || "" },
-  //         });
-  //         if (!User) {
-  //           User = await prisma.user.create({
-  //             data: {
-  //               email: email || "",
-  //               name,
-  //               image,
-  //             },
-  //           });
-  //         } else {
-  //           User = await prisma.user.update({
-  //             where: { email: email || "" },
-  //             data: { name, image },
-  //           });
-  //         }
-  //         user.id = User?.id || "";
-  //         user.name = User?.name || "";
-  //         user.image = User?.image || "";
-  //         user.email = User?.email || "";
+  callbacks: {
+    // async signIn({ user, account }) {
+    //   if (
+    //     account &&
+    //     (account.provider === "github" || account.provider === "google")
+    //   ) {
+    //     const { email, name, image } = user;
+    //     let User;
+    //     try {
+    //       User = await prisma.user.findUnique({
+    //         where: { email: email || "" },
+    //       });
+    //       if (!User) {
+    //         User = await prisma.user.create({
+    //           data: {
+    //             email: email || "",
+    //             name,
+    //             image,
+    //           },
+    //         });
+    //       } else {
+    //         User = await prisma.user.update({
+    //           where: { email: email || "" },
+    //           data: { name, image },
+    //         });
+    //       }
+    //       user.id = User?.id || "";
+    //       user.name = User?.name || "";
+    //       user.image = User?.image || "";
+    //       user.email = User?.email || "";
 
-  //         return true;
-  //       } catch (error) {
-  //         console.error("Error saving user to database:", error);
-  //         return false;
-  //       }
-  //     }
-  //     return true;
-  //   },
-  //   jwt({ token, user, trigger, session }) {
-  //     if (trigger === "update") {
-  //       return {
-  //         ...token,
-  //         ...session.user,
-  //       };
-  //     }
-  //     if (user) {
-  //       token.id = user.id;
-  //       token.name = user.name;
-  //       token.picture = user.image;
-  //       token.email = user.email || "";
-  //       token.token = jwt.sign(
-  //         {
-  //           userId: user.id,
-  //           email: user.email,
-  //         },
-  //         process.env.EXTERNAL_SECRET ?? "password",
-  //         { expiresIn: "30d" }
-  //       );
-  //     }
-  //     return token;
-  //   },
-  //   session({ session, token }) {
-  //     if (token && session && session.user) {
-  //       session.user.id = token.id;
-  //       session.user.image = token.picture || "";
-  //       session.user.email = token.email || "";
-  //       session.user.token = token.token;
-  //     }
-  //     return session;
-  //   },
-  // },
+    //       return true;
+    //     } catch (error) {
+    //       console.error("Error saving user to database:", error);
+    //       return false;
+    //     }
+    //   }
+    //   return true;
+    // },
+    jwt({ token, user, trigger, session }) {
+      if (trigger === "update") {
+        return {
+          ...token,
+          ...session.user,
+        };
+      }
+      if (user) {
+        token.id = user.id;
+        token.name = user.name || "";
+        token.picture = user.image;
+        token.email = user.email || "";
+        token.token = jwt.sign(
+          {
+            userId: user.id,
+            email: user.email,
+          },
+          process.env.EXTERNAL_SECRET ?? "password",
+          { expiresIn: "30d" }
+        );
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (token && session && session.user) {
+        session.user.id = token.id;
+        session.user.image = token.picture || "";
+        session.user.email = token.email || "";
+        session.user.token = token.token;
+      }
+      return session;
+    },
+  },
   pages: {
     signIn: "/auth/signin",
   },
