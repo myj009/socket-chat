@@ -1,4 +1,3 @@
-import { EmojiPicker } from "@/components/emoji-picker";
 import { Button } from "@/components/ui/button";
 import { ChatInput } from "@/components/ui/chat/chat-input";
 import { AnimatePresence, motion } from "framer-motion";
@@ -93,7 +92,7 @@ export default function ChatBottombar({ sendMessage }: ChatBottombarProps) {
             placeholder="Type a message..."
             className="rounded-full"
           />
-          <div className="absolute right-4 bottom-2  ">
+          {/* <div className="absolute right-4 bottom-2  ">
             <EmojiPicker
               onChange={(value) => {
                 setMessage(message + value);
@@ -102,7 +101,7 @@ export default function ChatBottombar({ sendMessage }: ChatBottombarProps) {
                 }
               }}
             />
-          </div>
+          </div> */}
         </motion.div>
 
         {message.trim() ? (

@@ -14,7 +14,8 @@ export const chatStore:
 
 export const socket = atom<Socket | null>(null);
 
-export const messageAtom = atomFamily((channelId: string) =>
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const messageAtom = atomFamily((_channelId: string) =>
   atom<Message[]>([])
 );
 

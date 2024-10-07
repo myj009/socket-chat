@@ -168,17 +168,23 @@ export const authOptions: AuthOptions = {
           { expiresIn: "30d" }
         );
       }
+      console.log("jwt", token);
       return token;
     },
     session({ session, token }) {
+      console.log("token", token);
       if (token && session && session.user) {
         session.user.id = token.id;
         session.user.image = token.picture || "";
         session.user.email = token.email || "";
         session.user.token = token.token;
       }
+      console.log("Session", session);
       return session;
     },
+  },
+  session: {
+    strategy: "jwt",
   },
   pages: {
     signIn: "/auth/signin",

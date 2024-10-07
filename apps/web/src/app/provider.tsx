@@ -31,6 +31,7 @@ function SocketProvider({
 
   useEffect(() => {
     if (session && session.data?.user) {
+      console.log(session.data.user);
       const socket = connectSocket(session.data.user.token);
       setSocket(socket);
       socket.connect();

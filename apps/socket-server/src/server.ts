@@ -19,7 +19,7 @@ export function createServer() {
     cors: corsOptions,
   });
 
-  server.listen(process.env.PORT || 8000, () => {
+  server.listen(process.env.PORT || 8989, () => {
     console.log(`Listening on port ${process.env.PORT}`);
   });
 

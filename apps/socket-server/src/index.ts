@@ -19,6 +19,7 @@ function initEventHandlers({ io }: { io: Server }) {
   io.use((socket, next) => {
     const sock = socket as ISocket;
     const token = sock.handshake.auth.token;
+    console.log(token);
     try {
       const user = jwt.verify(
         token,
