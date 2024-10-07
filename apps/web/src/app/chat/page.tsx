@@ -22,7 +22,7 @@ export default function ChatPage() {
   }
 
   if (chat.state === "hasError") {
-    console.log(chat.error);
+    console.error(chat.error);
     return <div>User not found</div>;
   }
 

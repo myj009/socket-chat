@@ -148,7 +148,6 @@ export const authOptions: AuthOptions = {
     //   return true;
     // },
     session({ session, user }) {
-      // console.log("user", user);
       if (user) {
         session.user.id = user.id;
         session.user.token = jwt.sign(
@@ -160,7 +159,6 @@ export const authOptions: AuthOptions = {
           { expiresIn: "30d" }
         );
       }
-      // console.log("Session", session);
       return session;
     },
   },

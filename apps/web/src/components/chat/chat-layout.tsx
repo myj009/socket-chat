@@ -47,7 +47,6 @@ export function ChatLayout({
       if (session && session.user) {
         const socket = connectSocket(session.user.token);
         const res = await socket.emitWithAck("user:reach", { userId });
-        // console.log(res);
         if (res.status == "NEW") {
           router.refresh();
         }

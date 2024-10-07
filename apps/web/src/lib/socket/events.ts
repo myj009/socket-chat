@@ -12,7 +12,6 @@ export function bindEvents(socket: Socket) {
   });
 
   socket.on("message:created", (message: Message) => {
-    // console.log(message);
     updateMessageAtom(message);
   });
 }

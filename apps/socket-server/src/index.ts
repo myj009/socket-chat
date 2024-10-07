@@ -19,7 +19,6 @@ function initEventHandlers({ io }: { io: Server }) {
   io.use((socket, next) => {
     const sock = socket as ISocket;
     const token = sock.handshake.auth.token;
-    console.log(token);
     try {
       const user = jwt.verify(
         token,
@@ -51,7 +50,7 @@ function initEventHandlers({ io }: { io: Server }) {
 
   io.on("connection", (socket) => {
     const sock = socket as ISocket;
-    console.log("user connected:", sock.userId);
+    // console.log("user connected:", sock.userId);
     sock.on("disconnect", () => {
       console.log("user disconnected");
     });

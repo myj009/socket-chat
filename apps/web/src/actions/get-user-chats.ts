@@ -8,7 +8,7 @@ import { getServerSession } from "next-auth";
 
 const flattenChat = (chat: ChannelWithUsers, userId: string): IChat | null => {
   if (chat.UserChannels.length < 2) {
-    console.log("Invalid chat");
+    console.error("Invalid chat");
     return null;
   }
 
@@ -124,8 +124,6 @@ export async function getUserChats() {
       },
     },
   });
-
-  console.log(chats);
 
   return flattenChats(chats, session.user.id);
 }

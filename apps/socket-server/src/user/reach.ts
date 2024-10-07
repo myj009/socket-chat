@@ -10,8 +10,6 @@ const PayloadType = z.object({
 
 export function reachUser(io: Server, socket: ISocket) {
   return async (payload: z.infer<typeof PayloadType>, callback: any) => {
-    console.log("reachuser");
-    console.log(payload, callback);
     if (typeof callback !== "function") {
       return;
     }

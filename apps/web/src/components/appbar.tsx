@@ -1,7 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import {
-  MessageCircleCode
-} from "lucide-react";
+import { MessageCircleCode } from "lucide-react";
 import Link from "next/link";
 import AuthButton from "./auth-button";
 import { ModeToggle } from "./theme-toggle";
@@ -13,7 +11,7 @@ export default function Appbar() {
         <div className="flex gap-4">
           <Link href="/" className="items-center gap-2 flex" prefetch={false}>
             <MessageCircleCode className="h-6 w-6 text-brand" />
-            <span className="text-lg font-semibold text-brand">
+            <span className="text-lg font-semibold text-brand hidden sm:block">
               Socket-Chat
             </span>
           </Link>

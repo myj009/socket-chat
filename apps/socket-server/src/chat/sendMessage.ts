@@ -11,8 +11,6 @@ const PayloadType = z.object({
 
 export function sendMessage(io: Server, socket: ISocket) {
   return async (payload: z.infer<typeof PayloadType>, callback: any) => {
-    console.log("sendMessage");
-    console.log(payload, callback);
     if (typeof callback !== "function") {
       return;
     }
@@ -35,7 +33,7 @@ export function sendMessage(io: Server, socket: ISocket) {
         message,
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
       callback({
         status: "ERROR",
         message: null,

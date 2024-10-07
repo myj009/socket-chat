@@ -38,7 +38,6 @@ export default function SearchUsers({
     }
 
     const res = await sock!.emitWithAck("user:reach", { userId: user.id });
-    console.log(res);
     const params = new URLSearchParams();
     params.set("userId", user.id);
     setIsSearchOpen(false);

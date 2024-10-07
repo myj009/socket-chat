@@ -62,9 +62,7 @@ export function ChatList({ selectedUser, isMobile, channelId }: ChatListProps) {
       channelId: channelId,
       content: newMessage,
     });
-    console.log(res);
     const message = res.message as Message;
-    console.log(message);
     if (typeof message.createdAt === "string") {
       message.createdAt = new Date(message.createdAt);
     }
