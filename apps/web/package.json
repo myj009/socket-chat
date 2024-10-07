@@ -25,6 +25,7 @@
     "boring-avatars": "^1.11.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cmdk": "1.0.0",
     "framer-motion": "^11.11.1",
     "jotai": "^2.10.0",
     "jsonwebtoken": "^9.0.2",

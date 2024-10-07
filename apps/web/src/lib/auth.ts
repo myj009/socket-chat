@@ -147,19 +147,11 @@ export const authOptions: AuthOptions = {
     //   }
     //   return true;
     // },
-    jwt({ token, user, trigger, session }) {
-      if (trigger === "update") {
-        return {
-          ...token,
-          ...session.user,
-        };
-      }
+    session({ session, user }) {
+      // console.log("user", user);
       if (user) {
-        token.id = user.id;
-        token.name = user.name || "";
-        token.picture = user.image;
-        token.email = user.email || "";
-        token.token = jwt.sign(
+        session.user.id = user.id;
+        session.user.token = jwt.sign(
           {
             userId: user.id,
             email: user.email,
@@ -168,23 +160,9 @@ export const authOptions: AuthOptions = {
           { expiresIn: "30d" }
         );
       }
-      console.log("jwt", token);
-      return token;
-    },
-    session({ session, token }) {
-      console.log("token", token);
-      if (token && session && session.user) {
-        session.user.id = token.id;
-        session.user.image = token.picture || "";
-        session.user.email = token.email || "";
-        session.user.token = token.token;
-      }
-      console.log("Session", session);
+      // console.log("Session", session);
       return session;
     },
-  },
-  session: {
-    strategy: "jwt",
   },
   pages: {
     signIn: "/auth/signin",

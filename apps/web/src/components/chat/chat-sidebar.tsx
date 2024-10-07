@@ -10,7 +10,12 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import BoringAvatar from "boring-avatars";
+import { PenBox } from "lucide-react";
 import Link from "next/link";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import SearchUsers from "../search-users";
+import { useState } from "react";
+import UserAvatar from "../user-avatar";
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -26,19 +31,35 @@ interface SidebarProps {
 }
 
 export function Sidebar({ chats, isCollapsed, isMobile }: SidebarProps) {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   return (
     <div
       data-collapsed={isCollapsed}
       className="relative group flex flex-col h-full bg-muted/10 dark:bg-muted/20 gap-4 p-2 data-[collapsed=true]:p-2 "
     >
-      {!isCollapsed && (
-        <div className="flex justify-between p-2 items-center">
+      <div
+        className={
+          isCollapsed
+            ? "justify-center w-full flex p-2 items-center"
+            : "justify-between w-full flex p-2 items-center"
+        }
+      >
+        {!isCollapsed && (
           <div className="flex gap-2 items-center text-2xl">
             <p className="font-medium">Chats</p>
             <span className="">({chats ? chats.length : 0})</span>
           </div>
-        </div>
-      )}
+        )}
+        <Popover open={isSearchOpen} onOpenChange={setIsSearchOpen}>
+          <PopoverTrigger asChild>
+            <PenBox className="h-6 w-6 cursor-pointer" />
+          </PopoverTrigger>
+          <PopoverContent>
+            <SearchUsers setIsSearchOpen={setIsSearchOpen} />
+          </PopoverContent>
+        </Popover>
+      </div>
       <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
         {chats?.map((chat, index) =>
           isCollapsed ? (
@@ -54,24 +75,7 @@ export function Sidebar({ chats, isCollapsed, isMobile }: SidebarProps) {
                         "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
                     )}
                   >
-                    {chat.avatar ? (
-                      <Avatar className="flex justify-center items-center">
-                        <AvatarImage
-                          src={chat.avatar ?? undefined}
-                          alt={chat.avatar ?? undefined}
-                          width={6}
-                          height={6}
-                          className="w-10 h-10 "
-                        />
-                      </Avatar>
-                    ) : (
-                      <BoringAvatar
-                        size={35}
-                        name={chat.userId}
-                        variant="beam"
-                      />
-                    )}
-
+                    <UserAvatar image={chat.avatar} id={chat.userId} />
                     <span className="sr-only">{chat.name}</span>
                   </Link>
                 </TooltipTrigger>
@@ -94,20 +98,7 @@ export function Sidebar({ chats, isCollapsed, isMobile }: SidebarProps) {
                 "justify-start gap-4"
               )}
             >
-              {chat.avatar ? (
-                <Avatar className="flex justify-center items-center">
-                  <AvatarImage
-                    src={chat.avatar ?? undefined}
-                    alt={chat.avatar ?? undefined}
-                    width={6}
-                    height={6}
-                    className="w-10 h-10 "
-                  />
-                </Avatar>
-              ) : (
-                <BoringAvatar size={35} name={chat.userId} variant="beam" />
-              )}
-
+              <UserAvatar image={chat.avatar} id={chat.userId} />
               <div className="flex flex-col max-w-28">
                 <span>{chat.name}</span>
               </div>

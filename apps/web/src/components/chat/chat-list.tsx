@@ -19,6 +19,7 @@ import { EllipsisVertical, Forward, Heart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Suspense, useEffect, useRef } from "react";
 import ChatBottombar from "./chat-bottombar";
+import UserAvatar from "../user-avatar";
 
 interface ChatListProps {
   selectedUser: UserMin;
@@ -106,11 +107,10 @@ export function ChatList({ selectedUser, isMobile, channelId }: ChatListProps) {
                 >
                   {/* Usage of ChatBubble component */}
                   <ChatBubble variant={variant}>
-                    {/* <ChatBubbleAvatar src={message.avatar} /> */}
-                    <Avatar
-                      name={message.fromUserId}
-                      variant="beam"
-                      className="h-9 w-9"
+                    <UserAvatar
+                      image={selectedUser.image}
+                      id={selectedUser.id}
+                      size="9"
                     />
                     <ChatBubbleMessage
                       variant={variant}

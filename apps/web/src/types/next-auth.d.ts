@@ -12,13 +12,3 @@ declare module "next-auth" {
     };
   }
 }
-
-declare module "next-auth/jwt" {
-  interface JWT {
-    name: string;
-    id: string;
-    image: string;
-    email: string;
-    token: string;
-  }
-}
