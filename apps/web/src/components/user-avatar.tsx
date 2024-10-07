@@ -1,6 +1,5 @@
 "use client";
 
-import { UserMin } from "@/types/prisma";
 import BoringAvatar from "boring-avatars";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 

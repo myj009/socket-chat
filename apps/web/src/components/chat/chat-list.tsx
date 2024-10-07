@@ -12,14 +12,13 @@ import { ChatMessageList } from "@/components/ui/chat/chat-message-list";
 import { connectSocket } from "@/lib/socket";
 import { UserMin } from "@/types/prisma";
 import { Message } from "@prisma/client";
-import Avatar from "boring-avatars";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAtom, useSetAtom } from "jotai";
 import { EllipsisVertical, Forward, Heart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Suspense, useEffect, useRef } from "react";
-import ChatBottombar from "./chat-bottombar";
 import UserAvatar from "../user-avatar";
+import ChatBottombar from "./chat-bottombar";
 
 interface ChatListProps {
   selectedUser: UserMin;

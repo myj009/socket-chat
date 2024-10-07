@@ -1,7 +1,5 @@
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { ExpandableChatHeader } from "@/components/ui/chat/expandable-chat";
 import { UserMin } from "@/types/prisma";
-import BoringAvatar from "boring-avatars";
 import UserAvatar from "../user-avatar";
 
 interface ChatTopbarProps {

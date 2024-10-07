@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Tooltip,
@@ -9,12 +8,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import BoringAvatar from "boring-avatars";
 import { PenBox } from "lucide-react";
 import Link from "next/link";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import SearchUsers from "../search-users";
 import { useState } from "react";
+import SearchUsers from "../search-users";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import UserAvatar from "../user-avatar";
 
 interface SidebarProps {
@@ -30,7 +28,7 @@ interface SidebarProps {
   isMobile: boolean;
 }
 
-export function Sidebar({ chats, isCollapsed, isMobile }: SidebarProps) {
+export function Sidebar({ chats, isCollapsed }: SidebarProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
