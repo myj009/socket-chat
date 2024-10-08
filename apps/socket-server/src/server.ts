@@ -9,12 +9,16 @@ export function createServer() {
   app.use(bodyParser.json());
 
   const corsOptions = {
-    origin: ["http://localhost:3000"],
+    origin: [process.env.ORIGIN || "http://localhost:3000"],
     credentials: true,
   };
   app.use(cors(corsOptions));
-  const server = http.createServer(app);
 
+  app.get("/", (req, res) => {
+    res.send("Hello World");
+  });
+
+  const server = http.createServer(app);
   const io = new Server(server, {
     cors: corsOptions,
   });
