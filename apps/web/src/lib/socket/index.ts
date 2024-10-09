@@ -7,7 +7,7 @@ let socket: Socket | null;
 
 export const connectSocket = (token: string) => {
   if (!socket) {
-    socket = io(process.env.WSURL || "http://localhost:8989", {
+    socket = io(process.env.NEXT_PUBLIC_WSURL || "http://localhost:8989", {
       autoConnect: false,
       withCredentials: true,
       path: "/socket.io/",
