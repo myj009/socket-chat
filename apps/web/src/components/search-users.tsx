@@ -13,6 +13,7 @@ import UserAvatar from "./user-avatar";
 import { useAtomValue } from "jotai";
 import { socket } from "@/app/store";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "./ui/skeleton";
 
 export default function SearchUsers({
   setIsSearchOpen,
@@ -20,11 +21,16 @@ export default function SearchUsers({
   setIsSearchOpen: (open: boolean) => void;
 }) {
   const [users, setUsers] = React.useState<UserMin[]>([]);
+  const [loading, setLoading] = React.useState(true);
   const sock = useAtomValue(socket);
   const router = useRouter();
 
   useEffect(() => {
-    handleValueChange("");
+    async function init() {
+      await handleValueChange("");
+      setLoading(false);
+    }
+    init();
   }, []);
 
   const handleValueChange = async (value: string) => {
@@ -54,25 +60,36 @@ export default function SearchUsers({
         onValueChange={handleValueChange}
       />
       <CommandList>
-        <CommandEmpty>No users found.</CommandEmpty>
-        <CommandGroup className="flex flex-col gap-1">
-          {users.map((user) => (
-            <CommandItem
-              className="w-full cursor-pointer"
-              key={user.id}
-              onSelect={() => {
-                handleUserSelect(user);
-              }}
-            >
-              <div className="flex gap-3 items-center">
-                <div className="">
-                  <UserAvatar image={user.image} id={user.id} />
-                </div>
-                <div className="">{user.name}</div>
-              </div>
+        {!loading && (
+          <>
+            <CommandEmpty>No users found.</CommandEmpty>
+            <CommandGroup className="flex flex-col gap-1">
+              {users.map((user) => (
+                <CommandItem
+                  className="w-full cursor-pointer"
+                  key={user.id}
+                  onSelect={() => {
+                    handleUserSelect(user);
+                  }}
+                >
+                  <div className="flex gap-3 items-center">
+                    <div className="">
+                      <UserAvatar image={user.image} id={user.id} />
+                    </div>
+                    <div className="">{user.name}</div>
+                  </div>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </>
+        )}
+        {loading && (
+          <CommandGroup className="flex flex-col w-full">
+            <CommandItem className="w-full">
+              <Skeleton className="w-full h-10 rounded-xl" />
             </CommandItem>
-          ))}
-        </CommandGroup>
+          </CommandGroup>
+        )}
       </CommandList>
     </Command>
   );

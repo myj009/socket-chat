@@ -18,12 +18,20 @@ export default function ChatPage() {
   }
 
   if (!userId) {
-    return <div>No user selected</div>;
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        No conversations yet. Start by searching for a user.
+      </div>
+    );
   }
 
   if (chat.state === "hasError") {
     console.error(chat.error);
-    return <div>User not found</div>;
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        User not found
+      </div>
+    );
   }
 
   if (chat.state === "loading" || !chat.data) {
