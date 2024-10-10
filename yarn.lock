@@ -4418,6 +4418,11 @@ react-resizable-panels@^2.1.4:
   resolved "https://registry.yarnpkg.com/react-resizable-panels/-/react-resizable-panels-2.1.4.tgz#ae1803a916ba759e483336c7bd49830f1b0cd16f"
   integrity sha512-kzue8lsoSBdyyd2IfXLQMMhNujOxRoGVus+63K95fQqleGxTfvgYLTzbwYMOODeAHqnkjb3WV/Ks7f5+gDYZuQ==
 
+react-skeleton-image@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/react-skeleton-image/-/react-skeleton-image-0.0.10.tgz#c7e822d4886a7bbf6fdea95e8e9b0e4640bc2700"
+  integrity sha512-Dbdjda3Vc0190Xd0PlpolTRy5YhZiRW/sXzxNKOH826jN+0Z13wkvCKIk9reZcWt846g8qMiLnx7jdL+o+NDTA==
+
 react-style-singleton@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-style-singleton/-/react-style-singleton-2.2.1.tgz#f99e420492b2d8f34d38308ff660b60d0b1205b4"

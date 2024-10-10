@@ -15,7 +15,7 @@ export default function Signin() {
   const session = useSession();
 
   if (session.status === "authenticated") {
-    router.replace("/");
+    router.replace("/chat");
   }
 
   return (

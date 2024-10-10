@@ -6,8 +6,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 // import { Input } from "@/components/ui/input";
 // import { Label } from "@/components/ui/label";
-import { FaGithub, FaGoogle } from "react-icons/fa";
 import { signIn, useSession } from "next-auth/react";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
 export default function Signin() {
@@ -15,11 +15,11 @@ export default function Signin() {
   const session = useSession();
 
   if (session.status === "authenticated") {
-    router.replace("/");
+    router.replace("/chat");
   }
 
   return (
-    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+    <div className="w-full grid min-h-screen grid-cols-1 lg:grid-cols-2">
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
@@ -57,14 +57,22 @@ export default function Signin() {
               <Button
                 variant="outline"
                 className="w-full"
-                onClick={() => signIn("github")}
+                onClick={() =>
+                  signIn("github", {
+                    callbackUrl: "/",
+                  })
+                }
               >
                 <FaGithub className="mr-2" /> GitHub
               </Button>
               <Button
                 variant="outline"
                 className="w-full"
-                onClick={() => signIn("google")}
+                onClick={() =>
+                  signIn("google", {
+                    callbackUrl: "/",
+                  })
+                }
               >
                 <FaGoogle className="mr-2" /> Google
               </Button>
