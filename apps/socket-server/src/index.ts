@@ -9,7 +9,7 @@ import { channelRoom, userRoom } from "./util";
 import { fetchUserChannels } from "./user/fetch";
 import { sendMessage } from "./chat/sendMessage";
 
-dotenv.config();
+dotenv.config({ path: __dirname + "/./../.env" });
 
 const io = createServer();
 
