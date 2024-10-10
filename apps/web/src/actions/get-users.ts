@@ -17,11 +17,13 @@ export async function GetUsers(slug: string) {
         {
           name: {
             contains: slug,
+            mode: "insensitive",
           },
         },
         {
           email: {
             contains: slug,
+            mode: "insensitive",
           },
         },
       ],
