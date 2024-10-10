@@ -7,10 +7,12 @@ export default function UserAvatar({
   image,
   id,
   size = "10",
+  name,
 }: {
   image: string | null;
   id: string;
   size?: string;
+  name: string;
 }) {
   if (image) {
     return (
@@ -20,7 +22,7 @@ export default function UserAvatar({
           alt={"image"}
           className={`h-${size} w-${size}`}
         />
-        <AvatarFallback>MJ</AvatarFallback>
+        <AvatarFallback>{name[0]}</AvatarFallback>
       </Avatar>
     );
   }

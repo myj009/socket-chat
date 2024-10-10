@@ -6,6 +6,7 @@ import React from "react";
 import { chatAtom } from "../store";
 import { useAtom } from "jotai";
 import { Chat } from "@/components/chat/chat";
+import ChatListSkeleton from "@/components/skeletons/chat-list";
 
 export default function ChatPage() {
   const searchParams = useSearchParams();
@@ -35,7 +36,7 @@ export default function ChatPage() {
   }
 
   if (chat.state === "loading" || !chat.data) {
-    return <div>Loading...</div>;
+    return <ChatListSkeleton />;
   }
 
   return (

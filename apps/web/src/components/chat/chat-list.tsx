@@ -108,6 +108,7 @@ export function ChatList({ selectedUser, isMobile, channelId }: ChatListProps) {
                       image={selectedUser.image}
                       id={selectedUser.id}
                       size="9"
+                      name={selectedUser.name || selectedUser.email}
                     />
                     <ChatBubbleMessage
                       variant={variant}

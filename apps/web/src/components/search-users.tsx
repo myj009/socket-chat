@@ -26,16 +26,14 @@ export default function SearchUsers({
   const router = useRouter();
 
   useEffect(() => {
-    async function init() {
-      await handleValueChange("");
-      setLoading(false);
-    }
-    init();
+    handleValueChange("");
   }, []);
 
   const handleValueChange = async (value: string) => {
+    setLoading(true);
     const u = await GetUsers(value);
     setUsers(u);
+    setLoading(false);
   };
 
   const handleUserSelect = async (user: UserMin) => {
@@ -74,7 +72,11 @@ export default function SearchUsers({
                 >
                   <div className="flex gap-3 items-center">
                     <div className="">
-                      <UserAvatar image={user.image} id={user.id} />
+                      <UserAvatar
+                        image={user.image}
+                        id={user.id}
+                        name={user.name || user.email}
+                      />
                     </div>
                     <div className="">{user.name}</div>
                   </div>

@@ -73,7 +73,11 @@ export function Sidebar({ chats, isCollapsed }: SidebarProps) {
                         "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
                     )}
                   >
-                    <UserAvatar image={chat.avatar} id={chat.userId} />
+                    <UserAvatar
+                      image={chat.avatar}
+                      id={chat.userId}
+                      name={chat.name}
+                    />
                     <span className="sr-only">{chat.name}</span>
                   </Link>
                 </TooltipTrigger>
@@ -96,7 +100,11 @@ export function Sidebar({ chats, isCollapsed }: SidebarProps) {
                 "justify-start gap-4"
               )}
             >
-              <UserAvatar image={chat.avatar} id={chat.userId} />
+              <UserAvatar
+                image={chat.avatar}
+                id={chat.userId}
+                name={chat.name}
+              />
               <div className="flex flex-col max-w-28">
                 <span>{chat.name}</span>
               </div>
