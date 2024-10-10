@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Sidebar } from "./chat-sidebar";
+import ChatLayoutSkeleton from "../skeletons/chat-layout";
 
 interface ChatLayoutProps {
   children: React.ReactNode;
@@ -80,7 +81,7 @@ export function ChatLayout({
   }, []);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <ChatLayoutSkeleton />;
   }
 
   return (
