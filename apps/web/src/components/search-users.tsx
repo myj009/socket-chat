@@ -22,7 +22,6 @@ export default function SearchUsers({
 }: {
   setIsSearchOpen: (open: boolean) => void;
 }) {
-  console.log("rendering search users");
   const [users, setUsers] = React.useState<UserMin[]>([]);
   const [loading, setLoading] = React.useState(true);
   const sock = useAtomValue(socket);
@@ -50,10 +49,6 @@ export default function SearchUsers({
       setLoading(false);
     }, 500);
   };
-
-  useEffect(() => {
-    console.log(users);
-  }, [users]);
 
   const handleUserSelect = async (user: UserMin) => {
     if (sock == null) {
