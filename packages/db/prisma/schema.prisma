@@ -71,6 +71,7 @@ model SocketIoAttachments {
 
 model Channel {
   id String @id @default(cuid())
+  name String?
   createdAt DateTime @default(now()) @map("created_at")
 
   Messages Message[]

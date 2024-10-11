@@ -8,12 +8,25 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { PenBox } from "lucide-react";
+import { EllipsisVertical, PenBox } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import SearchUsers from "../search-users";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import UserAvatar from "../user-avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import CreateGroupForm from "@/components/create-group-form";
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -30,6 +43,7 @@ interface SidebarProps {
 
 export function Sidebar({ chats, isCollapsed }: SidebarProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
     <div
@@ -49,14 +63,40 @@ export function Sidebar({ chats, isCollapsed }: SidebarProps) {
             <span className="">({chats ? chats.length : 0})</span>
           </div>
         )}
-        <Popover open={isSearchOpen} onOpenChange={setIsSearchOpen}>
-          <PopoverTrigger asChild>
-            <PenBox className="h-6 w-6 cursor-pointer" />
-          </PopoverTrigger>
-          <PopoverContent>
-            <SearchUsers setIsSearchOpen={setIsSearchOpen} />
-          </PopoverContent>
-        </Popover>
+        <div className="flex gap-2 items-center">
+          <Popover open={isSearchOpen} onOpenChange={setIsSearchOpen}>
+            <PopoverTrigger asChild>
+              <PenBox className="h-6 w-6 cursor-pointer" />
+            </PopoverTrigger>
+            <PopoverContent>
+              <SearchUsers setIsSearchOpen={setIsSearchOpen} />
+            </PopoverContent>
+          </Popover>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="focus-visible:outline-none">
+              <EllipsisVertical className="h-6 w-6 cursor-pointer" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogTrigger asChild>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onSelect={(event) => {
+                      event.preventDefault();
+                      setIsDialogOpen(true);
+                    }}
+                  >
+                    Create Group
+                  </DropdownMenuItem>
+                </DialogTrigger>
+                <DialogContent className="max-w-3xl min-h-[50vh] max-h-[90vh] overflow-y-auto flex flex-col gap-4 justify-start">
+                  <DialogTitle>Create new group</DialogTitle>
+                  <CreateGroupForm />
+                </DialogContent>
+              </Dialog>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
       <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
         {chats?.map((chat, index) =>

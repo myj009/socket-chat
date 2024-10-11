@@ -7,6 +7,7 @@ import deepEqual from "fast-deep-equal";
 import { IChat } from "@/types/chat";
 import { getUserChat } from "@/actions/get-user-chats";
 import { getChatMessages } from "@/actions/get-chat-messages";
+import { GetUsers } from "@/actions/get-users";
 
 export const chatStore:
   | INTERNAL_PrdStore
@@ -55,3 +56,10 @@ const chatAsyncAtom = atomFamily(
 export const chatAtom = atomFamily((userId: string | null) =>
   loadable(chatAsyncAtom(userId))
 );
+
+export const usersAsyncAtom = atom(async () => {
+  const users = await GetUsers("");
+  return users;
+});
+
+export const usersAtom = loadable(usersAsyncAtom);

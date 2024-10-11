@@ -8,6 +8,7 @@ import { ISocket } from "./types/socket";
 import { channelRoom, userRoom } from "./util";
 import { fetchUserChannels } from "./user/fetch";
 import { sendMessage } from "./chat/sendMessage";
+import { createGroup } from "./group/create";
 
 dotenv.config({ path: __dirname + "/./../.env" });
 
@@ -57,5 +58,6 @@ function initEventHandlers({ io }: { io: Server }) {
 
     sock.on("user:reach", reachUser(io, sock));
     sock.on("message:send", sendMessage(io, sock));
+    sock.on("group:create", createGroup(io, sock));
   });
 }

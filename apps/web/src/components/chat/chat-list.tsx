@@ -105,10 +105,18 @@ export function ChatList({ selectedUser, isMobile, channelId }: ChatListProps) {
                   {/* Usage of ChatBubble component */}
                   <ChatBubble variant={variant}>
                     <UserAvatar
-                      image={selectedUser.image}
-                      id={selectedUser.id}
+                      image={
+                        variant === "sent"
+                          ? data.user.image
+                          : selectedUser.image
+                      }
+                      id={variant === "sent" ? data.user.id : selectedUser.id}
                       size="9"
-                      name={selectedUser.name || selectedUser.email}
+                      name={
+                        variant === "sent"
+                          ? data.user.name || data.user.email
+                          : selectedUser.name || selectedUser.email
+                      }
                     />
                     <ChatBubbleMessage
                       variant={variant}
