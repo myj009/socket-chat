@@ -26,7 +26,6 @@ export default async function ChatPage({
   await pause;
 
   const chats: IChat[] | null = await getUserChats();
-  console.log(chats?.length);
 
   return (
     <>
