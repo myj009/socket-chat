@@ -12,7 +12,7 @@
     "dev": "tsc --watch",
     "build": "tsc",
     "build-server": "tsc",
-    "vercel-build": "npx prisma generate && npx prisma migrate deploy"
+    "vercel-build": "npx prisma generate && npx prisma migrate deploy && tsc"
   },
   "prisma": {
     "seed": "npx ts-node --compiler-options {\"module\":\"CommonJS\"} src/seed.ts"
