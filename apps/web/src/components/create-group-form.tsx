@@ -149,7 +149,7 @@ export default function CreateGroupForm() {
                         {searchResults.map((user) => (
                           <li
                             key={user.id}
-                            className="cursor-pointer hover:bg-gray-100 p-1"
+                            className="cursor-pointer hover:bg-muted p-1 rounded-md"
                             onClick={() => addMember(user)}
                           >
                             <div className="flex flex-row gap-2 items-center text-sm">
