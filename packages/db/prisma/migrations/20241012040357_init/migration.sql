@@ -61,6 +61,7 @@ CREATE TABLE "socket-io-attachments" (
 -- CreateTable
 CREATE TABLE "Channel" (
     "id" TEXT NOT NULL,
+    "name" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Channel_pkey" PRIMARY KEY ("id")
