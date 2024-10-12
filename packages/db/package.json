@@ -11,7 +11,8 @@
     "postinstall": "npx prisma generate",
     "dev": "tsc --watch",
     "build": "tsc",
-    "build-server": "tsc"
+    "build-server": "tsc",
+    "vercel-build": "npx prisma generate && npx prisma migrate deploy"
   },
   "prisma": {
     "seed": "npx ts-node --compiler-options {\"module\":\"CommonJS\"} src/seed.ts"
