@@ -7,6 +7,7 @@
     "lint": "turbo lint",
     "start-server": "turbo run start-server",
     "build-server": "turbo run build-server",
+    "vercel-build": "turbo run vercel-build",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
