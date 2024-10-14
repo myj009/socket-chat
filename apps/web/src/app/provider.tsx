@@ -37,7 +37,12 @@ function SocketProvider({
       socket.connect();
 
       socket.on("connect", () => {
-        console.log("Socket connnected", socket.id);
+        const transport = socket.io.engine.transport.name;
+        console.log("Socket connnected - ", socket.id, transport);
+        socket.io.engine.on("upgrade", () => {
+          const upgradedTransport = socket.io.engine.transport.name;
+          console.log(upgradedTransport);
+        });
       });
 
       return () => {
