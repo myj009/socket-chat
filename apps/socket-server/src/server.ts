@@ -21,6 +21,7 @@ export function createServer() {
   const server = http.createServer(app);
   const io = new Server(server, {
     cors: corsOptions,
+    pingTimeout: 60000,
   });
 
   server.listen(process.env.PORT || 8989, () => {

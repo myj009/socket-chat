@@ -14,4 +14,8 @@ export function bindEvents(socket: Socket) {
   socket.on("message:created", (message: Message) => {
     updateMessageAtom(message);
   });
+
+  socket.on("connect_error", (e) => {
+    console.log("connect error - ", e);
+  });
 }

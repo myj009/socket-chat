@@ -60,4 +60,10 @@ function initEventHandlers({ io }: { io: Server }) {
     sock.on("message:send", sendMessage(io, sock));
     sock.on("group:create", createGroup(io, sock));
   });
+
+  io.engine.on("connection_error", (err) => {
+    console.log(err.code); // 3
+    console.log(err.message); // "Bad request"
+    console.log(err.context); // { name: 'TRANSPORT_MISMATCH', transport: 'websocket', previousTransport: 'polling' }
+  });
 }
