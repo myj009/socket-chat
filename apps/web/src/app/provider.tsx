@@ -4,7 +4,7 @@ import { SessionProvider, useSession } from "next-auth/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { type ThemeProviderProps } from "next-themes/dist/types";
 import { Provider as JotaiProvider, useSetAtom } from "jotai";
-import { chatStore, socket } from "./store";
+import { chatStore, socketAtom } from "./store";
 import { useEffect } from "react";
 import { connectSocket, disconnectSocket } from "@/lib/socket";
 import { usePathname, useRouter } from "next/navigation";
@@ -28,7 +28,7 @@ function SocketProvider({
   children: React.ReactNode;
 }): React.JSX.Element {
   const session = useSession();
-  const setSocket = useSetAtom(socket);
+  const setSocket = useSetAtom(socketAtom);
 
   useEffect(() => {
     if (session && session.data?.user) {
@@ -44,6 +44,14 @@ function SocketProvider({
           console.log(upgradedTransport);
         });
       });
+
+      socket.on("disconnect", (reason) =>
+        console.log("Disconnected: ", reason)
+      );
+
+      socket.on("reconnect_attempt", () =>
+        console.log("Attempting to reconnect...")
+      );
 
       return () => {
         disconnectSocket();

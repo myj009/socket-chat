@@ -1,19 +1,19 @@
+import { getChatMessages } from "@/actions/get-chat-messages";
+import { getUserChat } from "@/actions/get-user-chats";
+import { GetUsers } from "@/actions/get-users";
+import { IChat } from "@/types/chat";
+import { Message } from "@prisma/client";
+import deepEqual from "fast-deep-equal";
 import { atom, createStore } from "jotai";
 import { atomFamily, loadable } from "jotai/utils";
 import { INTERNAL_DevStoreRev4, INTERNAL_PrdStore } from "jotai/vanilla/store";
 import { Socket } from "socket.io-client";
-import { Message } from "@prisma/client";
-import deepEqual from "fast-deep-equal";
-import { IChat } from "@/types/chat";
-import { getUserChat } from "@/actions/get-user-chats";
-import { getChatMessages } from "@/actions/get-chat-messages";
-import { GetUsers } from "@/actions/get-users";
 
 export const chatStore:
   | INTERNAL_PrdStore
   | (INTERNAL_PrdStore & INTERNAL_DevStoreRev4) = createStore();
 
-export const socket = atom<Socket | null>(null);
+export const socketAtom = atom<Socket | null>(null);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const messageAtom = atomFamily((_channelId: string) =>
@@ -40,21 +40,36 @@ export const updateMessageAtom = (newMessage: Message) => {
   });
 };
 
-const chatAsyncAtom = atomFamily(
+// const chatAsyncAtom = atomFamily(
+//   (userId: string | null) =>
+//     atom(async () => {
+//       if (!userId) {
+//         return null;
+//       }
+
+//       const chat: IChat | null = await getUserChat(userId);
+//       return chat;
+//     }),
+//   deepEqual
+// );
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const chatAtom = atomFamily((_userId: string | null) =>
+  atom<IChat | null>(null)
+);
+
+export const syncChatAtom = atomFamily(
   (userId: string | null) =>
-    atom(async () => {
-      if (!userId) {
+    atom(null, async (get, set) => {
+      if (userId == null) {
+        set(chatAtom(userId), null);
         return null;
       }
-
       const chat: IChat | null = await getUserChat(userId);
+      set(chatAtom(userId), chat);
       return chat;
     }),
   deepEqual
-);
-
-export const chatAtom = atomFamily((userId: string | null) =>
-  loadable(chatAsyncAtom(userId))
 );
 
 export const usersAsyncAtom = atom(async () => {

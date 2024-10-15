@@ -1,6 +1,6 @@
 "use client";
 
-import { messageAtom, syncMessagesAtom } from "@/app/store";
+import { messageAtom, socketAtom, syncMessagesAtom } from "@/app/store";
 import {
   ChatBubble,
   ChatBubbleAction,
@@ -9,11 +9,10 @@ import {
   ChatBubbleTimestamp,
 } from "@/components/ui/chat/chat-bubble";
 import { ChatMessageList } from "@/components/ui/chat/chat-message-list";
-import { connectSocket } from "@/lib/socket";
 import { UserMin } from "@/types/prisma";
 import { Message } from "@prisma/client";
 import { AnimatePresence, motion } from "framer-motion";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { EllipsisVertical, Forward, Heart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Suspense, useEffect, useRef } from "react";
@@ -34,6 +33,7 @@ export function ChatList({ selectedUser, isMobile, channelId }: ChatListProps) {
   const [messages, setMessages] = useAtom(messageAtom(channelId));
   const syncMessages = useSetAtom(syncMessagesAtom(channelId));
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const socket = useAtomValue(socketAtom);
 
   useEffect(() => {
     async function syncMessagesFn() {
@@ -51,13 +51,12 @@ export function ChatList({ selectedUser, isMobile, channelId }: ChatListProps) {
     }
   }, [messages]);
 
-  if (!data || !data.user) {
+  if (!data || !data.user || !socket) {
     return <div>Unauthenticated</div>;
   }
 
   const sendMessage = async (newMessage: string) => {
-    const socket = connectSocket(data.user.token);
-    const res = await socket.emitWithAck("message:send", {
+    const res = await socket?.emitWithAck("message:send", {
       channelId: channelId,
       content: newMessage,
     });

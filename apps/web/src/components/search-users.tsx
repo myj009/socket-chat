@@ -1,5 +1,5 @@
 import { GetUsers } from "@/actions/get-users";
-import { socket } from "@/app/store";
+import { socketAtom } from "@/app/store";
 import { UserMin } from "@/types/prisma";
 import { CommandLoading } from "cmdk";
 import { useAtomValue } from "jotai";
@@ -24,7 +24,7 @@ export default function SearchUsers({
 }) {
   const [users, setUsers] = React.useState<UserMin[]>([]);
   const [loading, setLoading] = React.useState(true);
-  const sock = useAtomValue(socket);
+  const sock = useAtomValue(socketAtom);
   const router = useRouter();
 
   useEffect(() => {

@@ -51,9 +51,9 @@ function initEventHandlers({ io }: { io: Server }) {
 
   io.on("connection", (socket) => {
     const sock = socket as ISocket;
-    // console.log("user connected:", sock.userId);
-    sock.on("disconnect", () => {
-      console.log("user disconnected");
+    console.log("user connected:", sock.userId);
+    sock.on("disconnect", (reason) => {
+      console.log("user disconnected - ", reason);
     });
 
     sock.on("user:reach", reachUser(io, sock));

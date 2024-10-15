@@ -14,7 +14,6 @@ export const connectSocket = (token: string) => {
       auth: {
         token,
       },
-      transports: ["websocket"],
     });
 
     bindEvents(socket);

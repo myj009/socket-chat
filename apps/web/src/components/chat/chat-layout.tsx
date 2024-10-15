@@ -1,18 +1,19 @@
 "use client";
 
-import { IChat } from "@/types/chat";
+import { socketAtom } from "@/app/store";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { connectSocket } from "@/lib/socket";
 import { cn } from "@/lib/utils";
+import { IChat } from "@/types/chat";
+import { useAtomValue } from "jotai";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Sidebar } from "./chat-sidebar";
 import ChatLayoutSkeleton from "../skeletons/chat-layout";
+import { Sidebar } from "./chat-sidebar";
 
 interface ChatLayoutProps {
   children: React.ReactNode;
@@ -32,6 +33,7 @@ export function ChatLayout({
   const searchParams = useSearchParams();
   const router = useRouter();
   const userId = searchParams.get("userId");
+  const socket = useAtomValue(socketAtom);
 
   const { data: session, status } = useSession();
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
@@ -46,8 +48,7 @@ export function ChatLayout({
   useEffect(() => {
     async function reachUserSocket() {
       if (session && session.user) {
-        const socket = connectSocket(session.user.token);
-        const res = await socket.emitWithAck("user:reach", { userId });
+        const res = await socket?.emitWithAck("user:reach", { userId });
         if (res.status == "NEW") {
           router.refresh();
         }
@@ -64,7 +65,7 @@ export function ChatLayout({
     if (userId) {
       reachUserSocket();
     }
-  }, [chats, router, searchParams, session, userId]);
+  }, [chats, router, searchParams, session, socket, userId]);
 
   useEffect(() => {
     const checkScreenWidth = () => {
@@ -80,7 +81,7 @@ export function ChatLayout({
     };
   }, []);
 
-  if (status === "loading") {
+  if (status === "loading" || !socket) {
     return <ChatLayoutSkeleton />;
   }
 

@@ -1,18 +1,26 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
-import React from "react";
-import { chatAtom } from "../store";
-import { useAtom } from "jotai";
 import { Chat } from "@/components/chat/chat";
 import ChatListSkeleton from "@/components/skeletons/chat-list";
+import { useAtomValue, useSetAtom } from "jotai";
+import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { chatAtom, syncChatAtom } from "../store";
 
 export default function ChatPage() {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
   const { data } = useSession();
-  const [chat] = useAtom(chatAtom(userId));
+  const chat = useAtomValue(chatAtom(userId));
+  const syncChat = useSetAtom(syncChatAtom(userId));
+
+  useEffect(() => {
+    async function syncFn() {
+      await syncChat();
+    }
+    syncFn();
+  }, [syncChat]);
 
   if (!data || !data.user) {
     return <div>Unauthenticated</div>;
@@ -26,24 +34,11 @@ export default function ChatPage() {
     );
   }
 
-  if (chat.state === "hasError") {
-    console.error(chat.error);
-    return (
-      <div className="w-full h-full flex items-center justify-center">
-        User not found
-      </div>
-    );
-  }
-
-  if (chat.state === "loading" || !chat.data) {
+  if (!chat) {
     return <ChatListSkeleton />;
   }
 
   return (
-    <Chat
-      selectedUser={chat.data.toUser}
-      isMobile={false}
-      channelId={chat.data.id}
-    />
+    <Chat selectedUser={chat.toUser} isMobile={false} channelId={chat.id} />
   );
 }
