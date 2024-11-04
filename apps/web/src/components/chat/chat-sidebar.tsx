@@ -1,5 +1,6 @@
 "use client";
 
+import CreateGroupForm from "@/components/create-group-form";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Tooltip,
@@ -12,21 +13,20 @@ import { EllipsisVertical, PenBox } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import SearchUsers from "../search-users";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import UserAvatar from "../user-avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import CreateGroupForm from "@/components/create-group-form";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import UserAvatar from "../user-avatar";
 
 interface SidebarProps {
   isCollapsed: boolean;

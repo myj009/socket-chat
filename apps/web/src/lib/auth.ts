@@ -108,6 +108,9 @@ export const authOptions: AuthOptions = {
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
     // async signIn({ user, account }) {
     //   if (
@@ -147,13 +150,25 @@ export const authOptions: AuthOptions = {
     //   }
     //   return true;
     // },
-    session({ session, user }) {
+    jwt({ token, user }) {
       if (user) {
-        session.user.id = user.id;
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email!;
+        token.image = user.image;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (token && session && session.user) {
+        session.user.id = token.id;
+        session.user.image = token.image;
+        session.user.name = token.name;
+        session.user.email = token.email;
         session.user.token = jwt.sign(
           {
-            userId: user.id,
-            email: user.email,
+            userId: token.id,
+            email: token.email,
           },
           process.env.EXTERNAL_SECRET ?? "password",
           { expiresIn: "30d" }

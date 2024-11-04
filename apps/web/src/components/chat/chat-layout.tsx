@@ -35,15 +35,9 @@ export function ChatLayout({
   const userId = searchParams.get("userId");
   const socket = useAtomValue(socketAtom);
 
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
   const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.replace("/auth/signin");
-    }
-  }, [router, status]);
 
   useEffect(() => {
     async function reachUserSocket() {
@@ -81,7 +75,7 @@ export function ChatLayout({
     };
   }, []);
 
-  if (status === "loading" || !socket) {
+  if (!socket) {
     return <ChatLayoutSkeleton />;
   }
 

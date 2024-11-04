@@ -2,10 +2,11 @@ import { getChatMessages } from "@/actions/get-chat-messages";
 import { getUserChat } from "@/actions/get-user-chats";
 import { GetUsers } from "@/actions/get-users";
 import { IChat } from "@/types/chat";
+import { UserMin } from "@/types/prisma";
 import { Message } from "@prisma/client";
 import deepEqual from "fast-deep-equal";
 import { atom, createStore } from "jotai";
-import { atomFamily, loadable } from "jotai/utils";
+import { atomFamily } from "jotai/utils";
 import { INTERNAL_DevStoreRev4, INTERNAL_PrdStore } from "jotai/vanilla/store";
 import { Socket } from "socket.io-client";
 
@@ -72,9 +73,10 @@ export const syncChatAtom = atomFamily(
   deepEqual
 );
 
-export const usersAsyncAtom = atom(async () => {
+export const usersAtom = atom<UserMin[]>([]);
+
+export const syncUsersAtom = atom(null, async (get, set) => {
   const users = await GetUsers("");
+  set(usersAtom, users);
   return users;
 });
-
-export const usersAtom = loadable(usersAsyncAtom);

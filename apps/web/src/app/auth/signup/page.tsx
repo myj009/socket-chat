@@ -4,20 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
-import { useRouter } from "next/navigation";
 
 export default function Signin() {
-  const router = useRouter();
-  const session = useSession();
-
-  if (session.status === "authenticated") {
-    router.replace("/chat");
-  }
-
   return (
     <div className="w-full grid min-h-screen grid-cols-1 lg:grid-cols-2">
       <div className="flex items-center justify-center py-12">

@@ -1,4 +1,4 @@
-import { usersAtom } from "@/app/store";
+import { syncUsersAtom, usersAtom } from "@/app/store";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,9 +12,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { UserMin } from "@/types/prisma";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { Check, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import CreateGroupSkeleton from "./skeletons/create-group";
@@ -40,6 +40,8 @@ export default function CreateGroupForm() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<UserMin[]>([]);
   const users = useAtomValue(usersAtom);
+  const syncUsers = useSetAtom(syncUsersAtom);
+  const [loading, setLoading] = useState(true);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -49,7 +51,15 @@ export default function CreateGroupForm() {
     },
   });
 
-  if (users.state === "loading" || users.state === "hasError") {
+  useEffect(() => {
+    async function syncUsersFn() {
+      await syncUsers();
+      setLoading(false);
+    }
+    syncUsersFn();
+  }, [syncUsers]);
+
+  if (loading) {
     <CreateGroupSkeleton />;
   }
 
@@ -60,14 +70,14 @@ export default function CreateGroupForm() {
 
   const handleSearch = async (value: string) => {
     setSearchTerm(value);
-    if (users.state != "hasData") {
+    if (loading) {
       return;
     }
     if (value.length < 2) {
       setSearchResults([]);
       return;
     }
-    const mockUsers = users.data.filter(
+    const mockUsers = users.filter(
       (user) =>
         user.name?.toLowerCase().includes(value.toLowerCase()) ||
         user.email?.toLowerCase().includes(value.toLowerCase())

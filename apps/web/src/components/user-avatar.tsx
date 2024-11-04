@@ -9,7 +9,7 @@ export default function UserAvatar({
   size = "10",
   name,
 }: {
-  image: string | null;
+  image?: string | null;
   id: string;
   size?: string;
   name: string;

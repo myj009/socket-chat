@@ -2,11 +2,8 @@ import { getUserChats } from "@/actions/get-user-chats";
 import Appbar from "@/components/appbar";
 import { ChatLayout } from "@/components/chat/chat-layout";
 import ChatLayoutSkeleton from "@/components/skeletons/chat-layout";
-import { authOptions } from "@/lib/auth";
 import { IChat } from "@/types/chat";
-import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 
 export default async function ChatPage({
@@ -14,11 +11,6 @@ export default async function ChatPage({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user) {
-    return redirect("/auth/signin");
-  }
-
   const layout = cookies().get("react-resizable-panels:layout");
   const defaultLayout = layout ? JSON.parse(layout.value) : undefined;
 
